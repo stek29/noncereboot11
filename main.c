@@ -13,6 +13,7 @@ void printusage(void) {
     printf("-v be more verbose\n");
     printf("-V even more verbose\n");
     printf("-U skip unlocking nvram\n");
+    printf("-L DONT DO THIS skip locking nvram back -- stays unlocked till reboot\n");
     printf("-g print generator (when combined with s/d prints twice)\n");
     printf("-s [val] set generator (WARNING: NO VALIDATION PERFORMED)\n");
     printf("-d delete generator (conflicts with s)\n");
@@ -39,9 +40,10 @@ int main(int argc, char *argv[]) {
     get = set = del = 0;
 
     int nounlock = 0;
+    int nolockback = 0;
 
     char c;
-    while ((c = getopt(argc, argv, "hqvVUrgds:")) != -1) {
+    while ((c = getopt(argc, argv, "hqvVUrgds:L")) != -1) {
         switch (c) {
             case 'h':
                 printusage();
@@ -72,6 +74,12 @@ int main(int argc, char *argv[]) {
             case 's':
                 set = 1;
                 gentoset = optarg;
+                break;
+
+            case 'L':
+                nolockback = 1;
+                printf("ARE YOU SURE? YOU HAVE 3 SECONDS TO CANCEL\n");
+                sleep(3);
                 break;
 
             case '?':
@@ -127,11 +135,11 @@ int main(int argc, char *argv[]) {
         DEBUG("gethelper: %d", retval);
     }
 
-    if (!nounlock) {
+    if (!nounlock && !nolockback) {
        if (locknvram()) {
             ERROR("failed to unlock nvram, cant do much about it");
         }
     }
-    
+
     return retval;
 }
