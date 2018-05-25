@@ -4,7 +4,7 @@ OUTDIR ?= bin
 CC      = xcrun -sdk iphoneos cc -arch arm64
 LDID    = ldid
 CFLAGS  = -Wall -I./headers
-ENT = Ent.plist
+ENT = ent.plist
 
 .PHONY: all clean
 
