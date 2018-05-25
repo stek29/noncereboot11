@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <mach/mach.h>
-#include <IOKit/IOKitLib.h>
+#include <IOKit.h>
 #include <CoreFoundation/CoreFoundation.h>
 
 #define kIONVRAMDeletePropertyKey   "IONVRAM-DELETE-PROPERTY"
